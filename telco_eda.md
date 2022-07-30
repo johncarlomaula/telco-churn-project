@@ -34,16 +34,16 @@ Exploratory Data Analysis
     -   <a href="#41-senior-citizenship-dependents-and-partner"
         id="toc-41-senior-citizenship-dependents-and-partner">4.1 Senior
         Citizenship, Dependents, and Partner</a>
-    -   <a href="#42-tenure-vs-contract" id="toc-42-tenure-vs-contract">4.2
-        Tenure vs. Contract</a>
-    -   <a href="#43-paperless-billing-vs-payment-method"
-        id="toc-43-paperless-billing-vs-payment-method">4.3 Paperless Billing
-        vs. Payment Method</a>
-    -   <a href="#44-monthly-charges-vs-internet-service"
-        id="toc-44-monthly-charges-vs-internet-service">4.4 Monthly Charges
-        vs. Internet Service</a>
-    -   <a href="#45-fiber-optic-vs-dsl" id="toc-45-fiber-optic-vs-dsl">4.5
-        Fiber Optic vs. DSL</a>
+    -   <a href="#42-tenure-and-contract" id="toc-42-tenure-and-contract">4.2
+        Tenure and Contract</a>
+    -   <a href="#43-paperless-billing-and-payment-method"
+        id="toc-43-paperless-billing-and-payment-method">4.3 Paperless Billing
+        and Payment Method</a>
+    -   <a href="#44-monthly-charges-and-internet-service"
+        id="toc-44-monthly-charges-and-internet-service">4.4 Monthly Charges and
+        Internet Service</a>
+    -   <a href="#45-fiber-optic-and-dsl" id="toc-45-fiber-optic-and-dsl">4.5
+        Fiber Optic and DSL</a>
 -   <a href="#5-conclusion" id="toc-5-conclusion">5. Conclusion</a>
 
 ## 1. Introduction
@@ -609,7 +609,7 @@ grid.arrange(bp1, bp2, bp3, ncol=1)
 Since **dependents** is correlated with both variables, I will be
 including it in the model.
 
-### 4.2 Tenure vs. Contract
+### 4.2 Tenure and Contract
 
 Tenure is dependent on contract since customers are probably unable to
 leave the company without paying significant fees. Thus, those who
@@ -626,7 +626,7 @@ plot.boxplot(train, train$Contract, train$tenure, "Contract", "tenure")
 Since these two variables are correlated with each other, I will only be
 including one of them in the model.
 
-### 4.3 Paperless Billing vs. Payment Method
+### 4.3 Paperless Billing and Payment Method
 
 Since **paperless billing** and **payment method** are closely related
 to each other, I decided to plot their relationship. I found that many
@@ -650,7 +650,7 @@ electronic check, I will recode payment method to a new variable,
 **electronic check**, that indicates whether or not a customer used an
 electronic check.
 
-### 4.4 Monthly Charges vs. Internet Service
+### 4.4 Monthly Charges and Internet Service
 
 Customers who churn tend to have a higher monthly charge. They also have
 *Fiber Optic* as their internet service. I looked at the relationship
@@ -665,7 +665,7 @@ plot.boxplot(train, train$InternetService, train$MonthlyCharges, "Internet Servi
 
 <img src="telco_eda_files/figure-gfm/unnamed-chunk-21-1.png" width="75%" />
 
-### 4.5 Fiber Optic vs. DSL
+### 4.5 Fiber Optic and DSL
 
 Finally, I wanted to look at difference between the customers who have
 each of the internet service.

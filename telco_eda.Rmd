@@ -298,7 +298,7 @@ grid.arrange(bp1, bp2, bp3, ncol=1)
 
 Since **dependents** is correlated with both variables, I will be including it in the model.
 
-### 4.2 Tenure vs. Contract
+### 4.2 Tenure and Contract
 
 Tenure is dependent on contract since customers are probably unable to leave the company without paying significant fees. Thus, those who choose a two-year contract tend to have a higher tenure than those with a month-to-month contract.
 
@@ -309,7 +309,7 @@ plot.boxplot(train, train$Contract, train$tenure, "Contract", "tenure")
 
 Since these two variables are correlated with each other, I will only be including one of them in the model.
 
-### 4.3 Paperless Billing vs. Payment Method
+### 4.3 Paperless Billing and Payment Method
 
 Since **paperless billing** and **payment method** are closely related to each other, I decided to plot their relationship. I found that many customers who have paperless billing use electronic checks, which could be the reason why there is a significant difference in the proportion of customers who churned for **paperless billing**. 
 
@@ -322,7 +322,7 @@ ggplot(train, aes(x = PaperlessBilling)) +
 
 Since these two variables are correlated with each other, I will only be including **payment method** in the model. Since the proportion of customers churning appear to be the same for all methods except for electronic check, I will recode payment method to a new variable, **electronic check**, that indicates whether or not a customer used an electronic check.
 
-### 4.4 Monthly Charges vs. Internet Service
+### 4.4 Monthly Charges and Internet Service
 
 Customers who churn tend to have a higher monthly charge. They also have *Fiber Optic* as their internet service. I looked at the relationship between **internet service** and **monthly charges** and found that customers who have *Fiber Optic* have a higher monthly charge than those who have *DSL*.
 
@@ -332,7 +332,7 @@ plot.boxplot(train, train$InternetService, train$MonthlyCharges, "Internet Servi
 ```
 
 
-### 4.5 Fiber Optic vs. DSL
+### 4.5 Fiber Optic and DSL
 
 Finally, I wanted to look at difference between the customers who have each of the internet service.
 
