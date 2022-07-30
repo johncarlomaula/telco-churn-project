@@ -624,7 +624,10 @@ plot.boxplot(train, train$Contract, train$tenure, "Contract", "tenure")
 <img src="telco_eda_files/figure-gfm/unnamed-chunk-19-1.png" width="75%" />
 
 Since these two variables are correlated with each other, I will only be
-including one of them in the model.
+including one of them in the model. To reduce the presence of noise, I
+decided to go with Contract since it is basically discrete version of
+tenure. I will also recode it to **Monthly Contract** since the majority
+of churning customers have *month-to-month* contracts.
 
 ### 4.3 Paperless Billing and Payment Method
 
@@ -731,14 +734,15 @@ so I made sure to explore the relationships between the predictors.
 Based on these results, I decided to include the following variables in
 the model:
 
-1.  **Tenure**
-2.  **Monthly Charges**
-3.  **Dependents**
+1.  **Monthly Charges**
+2.  **Dependents**
 
 I will also include two new variables recoded from existing variables:
 
-1.  **Electronic Check** - whether or not a customer’s payment method is
+1.  **Monthly Contract** - whether or not a customer has a
+    month-to-month contract.
+2.  **Electronic Check** - whether or not a customer’s payment method is
     Electronic check.
-2.  **Has Service** - whether or not a customer as at least one of the
+3.  **Has Service** - whether or not a customer as at least one of the
     following: online security, online backup, device protection, and
     tech support.
