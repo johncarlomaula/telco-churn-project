@@ -1,6 +1,31 @@
 Data Modeling
 ================
 
+This section will focus on building a logistic regression model to
+predict customer churning based on my findings from the EDA section and
+measure its performance using the testing set. I will also attempt to
+improve the model’s performance using methods such as bootstrapping.
+
+**Key Findings:**
+
+-   The initial logistic regression model had an accuracy of 79%, but a
+    sensitivity of 46.9%. This means that over half of churning
+    customers were incorrectly classified.
+-   By changing the probability threshold from 0.5 to 0.219, I was able
+    to increase the sensitivity to 80.7% at the cost of a 13.1% decrease
+    in accuracy. This translates to a 72% increase in the number of
+    churning customers who are correctly classified.
+-   By using bootstrapping, I increased sensitivity to 72% at the cost
+    of a 9.4% decrease in accuracy.
+-   Depending on the cost of customer retention and customer loss, each
+    model has its own advantages and disadvantages.
+-   The type of contract a customer has is the most important variable
+    in predicting churning. Other important variables include their
+    monthly charge, payment method, and whether or not they have certain
+    services provided by the company.
+
+### Table of Contents
+
 -   <a href="#1-introduction" id="toc-1-introduction">1. Introduction</a>
     -   <a href="#11-loading-packages" id="toc-11-loading-packages">1.1 Loading
         Packages</a>
@@ -42,29 +67,6 @@ Data Modeling
 -   <a href="#6-conclusion" id="toc-6-conclusion">6. Conclusion</a>
 
 ## 1. Introduction
-
-This section will focus on building a logistic regression model to
-predict customer churning based on my findings from the EDA section and
-measure its performance using the testing set. I will also attempt to
-improve the model’s performance using methods such as bootstrapping.
-
-**Key Findings:**
-
--   The initial logistic regression model had an accuracy of 79%, but a
-    sensitivity of 46.9%. This means that over half of churning
-    customers were incorrectly classified.
--   By changing the probability threshold from 0.5 to 0.219, I was able
-    to increase the sensitivity to 80.7% at the cost of a 13.1% decrease
-    in accuracy. This translates to a 72% increase in the number of
-    churning customers who are correctly classified.
--   By using bootstrapping, I increased sensitivity to 72% at the cost
-    of a 9.4% decrease in accuracy.
--   Depending on the cost of customer retention and customer loss, each
-    model has its own advantages and disadvantages.
--   The type of contract a customer has is the most important variable
-    in predicting churning. Other important variables include their
-    monthly charge, payment method, and whether or not they have certain
-    services provided by the company.
 
 ### 1.1 Loading Packages
 
