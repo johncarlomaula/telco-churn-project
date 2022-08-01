@@ -389,7 +389,7 @@ summary(cp)
 plot(cp)
 ```
 
-![](telco_model_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](images/telco_model_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 The optimal cutoff value was determined to be 0.283. This means that if
 the model’s predicted probability of churning is 0.283 or more, the
@@ -625,7 +625,7 @@ ggplot(metrics.long, aes(model, value, group = metrics)) +
   theme(axis.text.x = element_text(angle = 15)) 
 ```
 
-![](telco_model_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](images/telco_model_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 For each model, the results from the validation set is slightly lower
 than the results from the testing set. The **balanced accuracy**, which
