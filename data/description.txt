@@ -1,0 +1,21 @@
+1. customerID - unique identifier
+2. gender - sex of customer
+3. SeniorCitizen - whether a customer is 65 years old or older
+4. Partner - whether a customer has a partner: Yes/No
+5. Dependents - whether a customer lives with dependents
+6. tenure - the length a customer has been with the company in months
+7. PhoneService - whether a customer is subscribed to a phone service
+8. MultipleLines - whether a customer has multiple lines
+9. InternetService - the customer's internet service provider
+10. OnlineSecurity - whether a customer has online security
+11. OnlineBackup - whether a customer has online backup
+12. DeviceProtection - whether a customer has device protection
+13. TechSupport - whether a customer has tech support
+14. StreamingTV - whether a customer streams TV
+15. StreamingMovies - whether a customer streams Movies
+16. Contract - type of contract term that customer has
+17. PaperlessBilling - whether a customer selected paperless billing
+18. PaymentMethod - how a customer pays their bill
+19. MonthlyCharges - customer's total monthly charge
+20. TotalCharges - customer's total charges
+21. Churn - whether a customer has left the company
