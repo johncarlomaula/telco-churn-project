@@ -1,31 +1,6 @@
 Data Modeling
 ================
 
-This section will focus on building a logistic regression model to
-predict customer churning based on my findings from the EDA section and
-measure its performance using the testing set. I will also attempt to
-improve the model’s performance using methods such as bootstrapping.
-
-**Key Findings:**
-
--   The initial logistic regression model had an accuracy of 79%, but a
-    sensitivity of 46.9%. This means that over half of churning
-    customers were incorrectly classified.
--   By changing the probability threshold from 0.5 to 0.219, I was able
-    to increase the sensitivity to 80.7% at the cost of a 13.1% decrease
-    in accuracy. This translates to a 72% increase in the number of
-    churning customers who are correctly classified.
--   By using bootstrapping, I increased sensitivity to 72% at the cost
-    of a 9.4% decrease in accuracy.
--   Depending on the cost of customer retention and customer loss, each
-    model has its own advantages and disadvantages.
--   The type of contract a customer has is the most important variable
-    in predicting churning. Other important variables include their
-    monthly charge, payment method, and whether or not they have certain
-    services provided by the company.
-
-### Table of Contents
-
 -   <a href="#1-introduction" id="toc-1-introduction">1. Introduction</a>
     -   <a href="#11-loading-packages" id="toc-11-loading-packages">1.1 Loading
         Packages</a>
@@ -67,6 +42,29 @@ improve the model’s performance using methods such as bootstrapping.
 -   <a href="#6-conclusion" id="toc-6-conclusion">6. Conclusion</a>
 
 ## 1. Introduction
+
+This section will focus on building a logistic regression model to
+predict customer churning based on my findings from the EDA section and
+measure its performance using the testing set. I will also attempt to
+improve the model’s performance using methods such as bootstrapping.
+
+**Key Findings:**
+
+-   The initial logistic regression model had an accuracy of 79%, but a
+    sensitivity of 46.9%. This means that over half of churning
+    customers were incorrectly classified.
+-   By changing the probability threshold from 0.5 to 0.219, I was able
+    to increase the sensitivity to 85.0% at the cost of a 10.1% decrease
+    in accuracy. This translates to a 81.2% increase in the number of
+    churning customers who are correctly classified.
+-   By using bootstrapping, I increased sensitivity to 76.1% at the cost
+    of a 6.5% decrease in accuracy.
+-   Depending on the cost of customer retention and customer loss, each
+    model has its own advantages and disadvantages.
+-   The type of contract a customer has is the most important variable
+    in predicting churning. Other important variables include their
+    monthly charge, payment method, and whether or not they have certain
+    services provided by the company.
 
 ### 1.1 Loading Packages
 
@@ -141,7 +139,7 @@ train$HasService <- as.factor(ifelse(train$OnlineSecurity == "Yes", "Yes",
 
 train$ECheck <- as.factor(ifelse(train$PaymentMethod == "Electronic check", "Yes", "No"))
 
-# Verify the new features by comapring counts
+# Verify the new features by comaparing counts
 summary(subset(train, select = c("MonthlyContract", "Contract")))
 ```
 
@@ -195,14 +193,15 @@ test$ECheck <- as.factor(ifelse(test$PaymentMethod == "Electronic check", "Yes",
 ### 2.3 Validation Set
 
 Finally, I split half the testing set to create a validation set. The
-validation set will be reserved to measure the model performance of the
-final models.
+validation set will be used to measure initial model performance while
+the testing set will be reserved to measure performance after
+validation.
 
 ``` r
 # Split the test set in half to create a test set and a validation set
 sample <- sample(nrow(test), nrow(test) * 0.5, replace = FALSE)
-val.set <- test[sample, ]
-test <- test[-sample, ]
+val.set <- test[-sample, ]
+test <- test[sample, ]
 ```
 
 ## 3. Logistic Regression Model
@@ -284,14 +283,14 @@ summary(log.fit)
 ### 3.2 Calculating Model Performance
 
 To calculate model performance, I defined a function that will fit the
-logistic regression model on the testing and obtain the confusion
-matrix. This confusion matrix will be used to calculate the performance
-metrics such as accuracy, sensitivity, and specificity.
+logistic regression model on the validation and testing sets and obtain
+the confusion matrix. This confusion matrix will be used to calculate
+the performance metrics such as accuracy, sensitivity, and specificity.
 
 ``` r
 confusion.matrix <- function(model, k, data) {
   
-  # Obtain fitted probabilities from the test data
+  # Obtain fitted probabilities from the test/validation data
   glm.prob <- predict(model, type = "response", newdata = data)
   
   # Obtain vector of predictions using a k-value threshold
@@ -319,7 +318,7 @@ confusion.matrix <- function(model, k, data) {
 
 ``` r
 # Obtain the confusion matrix of the model with a 0.5 probability threshold
-log.matrix <- confusion.matrix(log.fit, 0.5, test)
+log.matrix <- confusion.matrix(log.fit, 0.5, val.set)
 ```
 
     ##  No Yes 
@@ -334,11 +333,11 @@ log.matrix <- confusion.matrix(log.fit, 0.5, test)
     ## Specificity:  0.883
 
 Although the model has an accuracy of 79%, the sensitivity is only
-46.9%. This means that out of the 226 churning customers in the testing
-set, more than half, (120 customers), have been incorrectly classified
-as not churning. This can be costly to the company if they fail to
-target customers who are likely to leave. Thus, adjustments to the model
-must be made.
+46.9%. This means that out of the 226 churning customers in the
+validation set, more than half, (120 customers), have been incorrectly
+classified as not churning. This can be costly to the company if they
+fail to target customers who are likely to leave. Thus, adjustments to
+the model must be made.
 
 ## 4. Improving the Model
 
@@ -352,12 +351,11 @@ predicted probabilities, which graphs the true positive rate
 
 ``` r
 # Store predicted probabilities in the dataframe
-glm.prob <- predict(log.fit, type = "response", newdata = test)
-test$prob <- glm.prob
+glm.prob <- predict(log.fit, type = "response", newdata = val.set)
+val.set$prob <- glm.prob
 
 # Using the predicted probabilities, construct a ROC Curve
-cp <- cutpointr(test, prob, Churn, pos_class = "Yes", neg_class = "No", direction = ">=",
-                method = maximize_metric, metric = sum_sens_spec)
+cp <- cutpointr(val.set, prob, Churn, pos_class = "Yes", neg_class = "No", direction = ">=", method = maximize_metric, metric = sum_sens_spec)
 
 # Summarize the results of the ROC curve
 summary(cp)
@@ -389,17 +387,17 @@ summary(cp)
 plot(cp)
 ```
 
-![](images/telco_model_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](telco_model_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
-The optimal cutoff value was determined to be 0.283. This means that if
-the model’s predicted probability of churning is 0.283 or more, the
+The optimal cutoff value was determined to be 0.219. This means that if
+the model’s predicted probability of churning is 0.219 or more, the
 customer will be classified as churning.
 
 The cutoff point can be located in the upper left hand corner of the ROC
 curve, where it attempts to maximize sensitivity and specificity. The
-plots to the show the distribution of predicted probabilities under each
-class. As you can see, the majority of churning customers are correctly
-classified.
+plots above show the distribution of predicted probabilities under each
+class. As shown by the plot, the majority of churning customers were
+correctly classified.
 
 By changing the optimal cutoff value, the sensitivity increased to 0.850
 at the cost of a lower specificity at 0.641. Depending on the costs of
@@ -411,7 +409,7 @@ trade off between sensitivity and specificity could be worth it.
 k <- cp$optimal_cutpoint
 
 # Construct a new confusion matrix with the optimal cutoff
-log.matrix2 <- confusion.matrix(log.fit, k, test)
+log.matrix2 <- confusion.matrix(log.fit, k, val.set)
 ```
 
     ##  No Yes 
@@ -498,11 +496,12 @@ summary(log.fit.boot)
 
 The resulting coefficients are interpreted the same way as the initial
 model. In fact, many of the coefficients are similar to the initial
-model. In this model, however, the **dependents** is significant.
+model. In this model, however, the **dependents** coefficient is
+significant.
 
 ``` r
 # Calculate the confusion matrix
-boot.matrix <- confusion.matrix(log.fit.boot, 0.5, test)
+boot.matrix <- confusion.matrix(log.fit.boot, 0.5, val.set)
 ```
 
     ##  No Yes 
@@ -524,12 +523,12 @@ value.
 ### 4.3 Plotting Model Performance
 
 To measure the final model performance of the models, I will now use the
-validation set, which acts as completely unseen data for the models.
-This will be a good representation on how the models will perform on new
+testing set, which acts as completely unseen data for the models. This
+will be a good representation on how the models will perform on new
 data.
 
 ``` r
-log.matrix.val <- confusion.matrix(log.fit, k, val.set)
+log.matrix.test <- confusion.matrix(log.fit, k, test)
 ```
 
     ##  No Yes 
@@ -544,7 +543,7 @@ log.matrix.val <- confusion.matrix(log.fit, k, val.set)
     ## Specificity:  0.6
 
 ``` r
-boot.matrix.val <- confusion.matrix(log.fit.boot, 0.5, val.set)
+boot.matrix.test <- confusion.matrix(log.fit.boot, 0.5, test)
 ```
 
     ##  No Yes 
@@ -580,10 +579,10 @@ col <- c("model", "accuracy", "sensitivity", "specificity", "balanced_accuracy")
 colnames(metrics.df) <- col
 
 # Create a list of the calculated confusion matrices
-matrices <- list(log.matrix, log.matrix2, log.matrix.val, boot.matrix, boot.matrix.val)
+matrices <- list(log.matrix, log.matrix2, log.matrix.test, boot.matrix, boot.matrix.test)
 
 # Create a vector of model names
-names <- c("1. Base Model", "2. Optimal Cutoff", "3. Optimal Cutoff (Val)", "4. Bootstrapped Model","5. Bootstrapped Model (Val)")
+names <- c("1. Base Model", "2. Optimal Cutoff", "3. Optimal Cutoff (Test)", "4. Bootstrapped Model","5. Bootstrapped Model (Test)")
 
 # Iterate through each confusion matrix and use function to obtain performance metrics
 for (i in 1:length(matrices)) {
@@ -595,12 +594,12 @@ for (i in 1:length(matrices)) {
 metrics.df
 ```
 
-    ##                         model accuracy sensitivity specificity
-    ## 1               1. Base Model    0.790       0.469       0.883
-    ## 2           2. Optimal Cutoff    0.688       0.850       0.641
-    ## 3     3. Optimal Cutoff (Val)    0.659       0.807       0.600
-    ## 4       4. Bootstrapped Model    0.725       0.761       0.715
-    ## 5 5. Bootstrapped Model (Val)    0.696       0.723       0.686
+    ##                          model accuracy sensitivity specificity
+    ## 1                1. Base Model    0.790       0.469       0.883
+    ## 2            2. Optimal Cutoff    0.688       0.850       0.641
+    ## 3     3. Optimal Cutoff (Test)    0.659       0.807       0.600
+    ## 4        4. Bootstrapped Model    0.725       0.761       0.715
+    ## 5 5. Bootstrapped Model (Test)    0.696       0.723       0.686
     ##   balanced.accuracy
     ## 1             0.676
     ## 2             0.745
@@ -625,12 +624,12 @@ ggplot(metrics.long, aes(model, value, group = metrics)) +
   theme(axis.text.x = element_text(angle = 15)) 
 ```
 
-![](images/telco_model_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](telco_model_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
-For each model, the results from the validation set is slightly lower
-than the results from the testing set. The **balanced accuracy**, which
-is the average of sensitivity and specificity, is equal for both models
-at 70.4%.
+For each model, the results from the testing set is slightly lower than
+the results from the validation set. The **balanced accuracy**, which is
+the average of sensitivity and specificity, is equal for both models at
+70.4%.
 
 Since the balanced accuracy of both models is equal, I decided to select
 the bootstrapped as the final model due to its higher accuracy (69.6%
@@ -642,7 +641,7 @@ vs. 65.9%).
 
 Feature importance measures how influential a predictor is in predicting
 churning. One way of measuring influence is by looking at the
-coeficients of the model.
+coefficients of the model.
 
 ``` r
 # Obtain odds ratio for the coefficients
@@ -669,8 +668,8 @@ Assuming all other remaining variables are constant:
 
 All predictors appear to have a significant influence in churning. Based
 on these numbers, **monthly contract** has the most influence in the
-odds of churning while **dependents** has the least influence. Thus,
-Telco Company can prioritize customers who have a month-to-month
+odds of churning while **dependents** has the least influence. Thus, the
+Telco company can prioritize customers who have a month-to-month
 contract.
 
 ### 5.2 Model Comparison
@@ -699,8 +698,8 @@ improve the model.
 
 First, I only selected 5 variables from the 19 potential predictors in
 the dataset, so it might be worth revisiting the other variables. Also,
-I there were some predictors chosen that were highly correlated to
-another. For example, **internet services** is highly correlated with
+there were some predictors chosen that were highly correlated to
+another. For example, **internet service** is highly correlated with
 **monthly charges**, so I could include that in the model instead of
 monthly charges. The same is also true for **tenure** and **monthly
 contract**.

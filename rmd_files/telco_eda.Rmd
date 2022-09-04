@@ -26,7 +26,7 @@ This section of the project will focus on exploratory data analysis. After exami
 
 ### 1.1 Loading Packages
 
-These are the packages I used during when exploring and visualizing the data.
+These are the packages I used when exploring and visualizing the data.
 
 ```{r echo = TRUE, warning = FALSE, message=FALSE}
 # Load required libraries
@@ -76,7 +76,7 @@ str(test)
 
 ### 2.2 Missing & Duplicate Values
 
-Looking at the missing values, the training set contains 5 missing values for **total charges**. Upon further inspection of the data, the customers with these missing values have a tenure of 0, which means they had just began their subscription service. Thus, they will not be useful in predicting churning and will be dropped from the data set.
+Looking at the missing values, the training set contains 5 missing values for **total charges**. Upon further inspection of the data, the customers with these missing values have a tenure of 0, which means they had just begun their subscription service. Thus, they will not be useful in predicting churning and will be dropped from the data set.
 
 ```{r echo = TRUE, warning = FALSE, message=FALSE}
 # Check the rows with missing values
@@ -307,7 +307,7 @@ Tenure is dependent on contract since customers are probably unable to leave the
 plot.boxplot(train, train$Contract, train$tenure, "Contract", "tenure")
 ```
 
-Since these two variables are correlated with each other, I will only be including one of them in the model. To reduce the presence of noise, I decided to go with Contract since it is basically discrete version of tenure. I will also recode it to **Monthly Contract** since the majority of churning customers have *month-to-month* contracts. 
+Since these two variables are correlated with each other, I will only be including one of them in the model. To reduce the presence of noise, I decided to go with Contract since it is basically a discrete version of tenure. I will also recode it to **Monthly Contract** since the majority of churning customers have *month-to-month* contracts. 
 
 ### 4.3 Paperless Billing and Payment Method
 
@@ -334,7 +334,7 @@ plot.boxplot(train, train$InternetService, train$MonthlyCharges, "Internet Servi
 
 ### 4.5 Fiber Optic and DSL
 
-Finally, I wanted to look at difference between the customers who have each of the internet service.
+Finally, I wanted to look at the differences between the customers who have each of the internet services.
 
 First, I looked at the relationship between the provided services and churning. Customers who have *Fiber Optic* tend to churn more than those with *DSL*. However customers who don't have **online security**, **online backup**, **device protection**, and **tech support** tend to churn more regardless of their internet service.
 
@@ -381,5 +381,5 @@ I will also include two new variables recoded from existing variables:
 
 1. **Monthly Contract** - whether or not a customer has a month-to-month contract.
 2. **Electronic Check** - whether or not a customer's payment method is Electronic check.
-3. **Has Service** - whether or not a customer as at least one of the following: online security, online backup, device protection, and tech support. 
+3. **Has Service** - whether or not a customer has at least one of the following: online security, online backup, device protection, and tech support. 
 

@@ -1,29 +1,6 @@
 Exploratory Data Analysis
 ================
 
-This section of the project will focus on exploratory data analysis.
-After examining and performing any necessary data cleaning, I visualized
-the variables and their relationships to determine whether or not they
-will be useful in predicting customer churning.
-
-**Key Findings**:
-
--   After data cleaning, the finalized training set contains 1995
-    observations with 20 variables
--   The response variable, **churn**, has a prevalence of 27.3%
--   Customers who have a higher monthly charge and lower tenure tend to
-    churn more.
--   Customers who are not senior citizens, have partners, have
-    dependents, or don’t use electronic checks are less likely to churn.
--   Although customers with the *Fiber Optic* internet service are more
-    likely to churn, it’s due to the higher cost of that specific
-    service rather than the quality of its services.
--   Customers with online security, online backup, device protection,
-    and tech support are less likely to churn regardless of the cost and
-    their internet service.
-
-### Table of Contents
-
 -   <a href="#1-introduction" id="toc-1-introduction">1. Introduction</a>
     -   <a href="#11-loading-packages" id="toc-11-loading-packages">1.1 Loading
         Packages</a>
@@ -71,10 +48,32 @@ will be useful in predicting customer churning.
 
 ## 1. Introduction
 
+This section of the project will focus on exploratory data analysis.
+After examining and performing any necessary data cleaning, I visualized
+the variables and their relationships to determine whether or not they
+will be useful in predicting customer churning.
+
+**Key Findings**:
+
+-   After data cleaning, the finalized training set contains 1995
+    observations with 20 variables
+-   The response variable, **churn**, has a prevalence of 27.3%
+-   Customers who have a higher monthly charge and lower tenure tend to
+    churn more.
+-   Customers who are not senior citizens, have partners, have
+    dependents, or don’t use electronic checks are less likely to churn.
+-   Although customers with the *Fiber Optic* internet service are more
+    likely to churn, it’s due to the higher cost of that specific
+    service rather than the quality of its services.
+-   Customers with online security, online backup, device protection,
+    and tech support are less likely to churn regardless of the cost and
+    their internet service.
+-   Based on these results, I decided to include these variables for
+    predictive modeling.
+
 ### 1.1 Loading Packages
 
-These are the packages I used during when exploring and visualizing the
-data.
+These are the packages I used when exploring and visualizing the data.
 
 ``` r
 # Load required libraries
@@ -204,7 +203,7 @@ str(test)
 Looking at the missing values, the training set contains 5 missing
 values for **total charges**. Upon further inspection of the data, the
 customers with these missing values have a tenure of 0, which means they
-had just began their subscription service. Thus, they will not be useful
+had just begun their subscription service. Thus, they will not be useful
 in predicting churning and will be dropped from the data set.
 
 ``` r
@@ -395,7 +394,7 @@ bp3 <- plot.boxplot(train, train$Churn, train$TotalCharges, "Churn", "Total Char
 grid.arrange(bp1, bp2, bp3, ncol=3)
 ```
 
-![](images/telco_eda_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](telco_eda_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 **Findings:**
 
@@ -457,7 +456,7 @@ these variables to determine their relationships.
 ggpairs(train.continuous, columns=1:3, ggplot2::aes(color=Churn, alpha=0.5))
 ```
 
-![](images/telco_eda_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](telco_eda_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 The following relationships are shown in the scatterplot matrix:
 
@@ -491,7 +490,7 @@ ggplot(train, aes(x=ChargeDifference)) +
   ggtitle("Histogram of Charge Difference")
 ```
 
-<img src="images/telco_eda_files/figure-gfm/unnamed-chunk-13-1.png" width="75%" />
+<img src="telco_eda_files/figure-gfm/unnamed-chunk-13-1.png" width="75%" />
 
 As expected, the result is symmetric and unimodal with a peak at 0,
 verifying the relationship. To avoid issues with collinearity, I will
@@ -524,7 +523,7 @@ bp6 <- plot.barplot(train, train$PaperlessBilling, train$Churn, "Paperless Billi
 grid.arrange(bp1, bp2, bp3, bp4, bp5, bp6, ncol=3)
 ```
 
-![](images/telco_eda_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](telco_eda_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 There appears to be a significant difference in the proportion of
 customers who churned for the variables **senior citizen**, **partner**,
@@ -541,7 +540,7 @@ bp10 <- plot.barplot(train, train$PaymentMethod, train$Churn, "Payment Method", 
 grid.arrange(bp7, bp8, bp9, bp10, ncol=2)
 ```
 
-![](images/telco_eda_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](telco_eda_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 Customers who tend to churn the most have:
 
@@ -560,7 +559,7 @@ bp16 <- plot.barplot(train, train$StreamingMovies, train$Churn, "Streaming Movie
 grid.arrange(bp11, bp12, bp13, bp14, bp15, bp16, ncol=3)
 ```
 
-![](images/telco_eda_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+![](telco_eda_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
 
 When it comes to services that depend on having **internet service**,
 there appears to be a significant difference in the proportion of
@@ -592,7 +591,7 @@ bp3 <- ggplot(train, aes(y = SeniorCitizen)) +
 grid.arrange(bp1, bp2, bp3, ncol=1)
 ```
 
-![](images/telco_eda_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](telco_eda_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 **Findings**:
 
@@ -621,11 +620,11 @@ a month-to-month contract.
 plot.boxplot(train, train$Contract, train$tenure, "Contract", "tenure")
 ```
 
-<img src="images/telco_eda_files/figure-gfm/unnamed-chunk-19-1.png" width="75%" />
+<img src="telco_eda_files/figure-gfm/unnamed-chunk-19-1.png" width="75%" />
 
 Since these two variables are correlated with each other, I will only be
 including one of them in the model. To reduce the presence of noise, I
-decided to go with Contract since it is basically discrete version of
+decided to go with Contract since it is basically a discrete version of
 tenure. I will also recode it to **Monthly Contract** since the majority
 of churning customers have *month-to-month* contracts.
 
@@ -644,7 +643,7 @@ ggplot(train, aes(x = PaperlessBilling)) +
   theme(axis.text=element_text(size=16), axis.title=element_text(size=16))
 ```
 
-<img src="images/telco_eda_files/figure-gfm/unnamed-chunk-20-1.png" width="75%" />
+<img src="telco_eda_files/figure-gfm/unnamed-chunk-20-1.png" width="75%" />
 
 Since these two variables are correlated with each other, I will only be
 including **payment method** in the model. Since the proportion of
@@ -666,12 +665,12 @@ who have *DSL*.
 plot.boxplot(train, train$InternetService, train$MonthlyCharges, "Internet Service", "Monthly Charges")
 ```
 
-<img src="images/telco_eda_files/figure-gfm/unnamed-chunk-21-1.png" width="75%" />
+<img src="telco_eda_files/figure-gfm/unnamed-chunk-21-1.png" width="75%" />
 
 ### 4.5 Fiber Optic and DSL
 
-Finally, I wanted to look at difference between the customers who have
-each of the internet service.
+Finally, I wanted to look at the differences between the customers who
+have each of the internet services.
 
 First, I looked at the relationship between the provided services and
 churning. Customers who have *Fiber Optic* tend to churn more than those
@@ -693,7 +692,7 @@ bp6 <- plot.barplot(train.is, train.is$StreamingMovies, train.is$Churn, "Streami
 grid.arrange(bp1, bp2, bp3, bp4, bp5, bp6, ncol=2)
 ```
 
-![](images/telco_eda_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+![](telco_eda_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
 
 Next, I looked at the relationship between **monthly charges** and the
 provided services. Customers who don’t have these services tend to have
@@ -712,7 +711,7 @@ bp7 <- plot.boxplot(train.is, train.is$StreamingMovies, train.is$MonthlyCharges,
 grid.arrange(bp2, bp3, bp4, bp5, bp6, bp7, ncol=3)
 ```
 
-![](images/telco_eda_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+![](telco_eda_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
 
 Based on these observations, I can conclude that the reason why
 customers with *Fiber Optic* tend to churn more isn’t due to the quality
@@ -743,6 +742,6 @@ I will also include two new variables recoded from existing variables:
     month-to-month contract.
 2.  **Electronic Check** - whether or not a customer’s payment method is
     Electronic check.
-3.  **Has Service** - whether or not a customer as at least one of the
+3.  **Has Service** - whether or not a customer has at least one of the
     following: online security, online backup, device protection, and
     tech support.
