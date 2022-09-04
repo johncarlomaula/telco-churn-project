@@ -54,11 +54,11 @@ improve the model’s performance using methods such as bootstrapping.
     sensitivity of 46.9%. This means that over half of churning
     customers were incorrectly classified.
 -   By changing the probability threshold from 0.5 to 0.219, I was able
-    to increase the sensitivity to 85.0% at the cost of a 10.1% decrease
-    in accuracy. This translates to a 81.2% increase in the number of
+    to increase the sensitivity to 80.7% at the cost of a 13.1% decrease
+    in accuracy. This translates to a 72.1% increase in the number of
     churning customers who are correctly classified.
--   By using bootstrapping, I increased sensitivity to 76.1% at the cost
-    of a 6.5% decrease in accuracy.
+-   By using bootstrapping, I increased sensitivity to 72.3% at the cost
+    of a 9.4% decrease in accuracy.
 -   Depending on the cost of customer retention and customer loss, each
     model has its own advantages and disadvantages.
 -   The type of contract a customer has is the most important variable
