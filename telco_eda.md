@@ -394,7 +394,7 @@ bp3 <- plot.boxplot(train, train$Churn, train$TotalCharges, "Churn", "Total Char
 grid.arrange(bp1, bp2, bp3, ncol=3)
 ```
 
-![](telco_eda_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](images/telco_eda_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 **Findings:**
 
